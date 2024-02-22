@@ -2,7 +2,7 @@ package router
 
 import (
 	"Middleware-test/controllers"
-	"Middleware-test/middlewares"
+	"Middleware-test/internal/middlewares"
 	"net/http"
 )
 

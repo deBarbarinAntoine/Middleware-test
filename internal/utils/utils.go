@@ -11,7 +11,7 @@ import (
 
 var (
 	_, b, _, _ = runtime.Caller(0)
-	Path       = filepath.Dir(b) + "/"
+	Path       = filepath.Dir(filepath.Dir(filepath.Dir(b))) + "/"
 )
 
 func GetIP(r *http.Request) string {

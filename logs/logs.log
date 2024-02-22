@@ -1,15 +1,9 @@
-{"time":"2024-02-22T21:10:24.143747135+01:00","level":"INFO","msg":"Log() Middleware","reqId":0,"clientIP":"127.0.0.1","reqMethod":"PATCH","reqURL":"/"}
-{"time":"2024-02-22T21:10:24.144073984+01:00","level":"WARN","msg":"IndexHandlerNoMeth","reqURL":"/","HttpStatus":405}
-{"time":"2024-02-22T21:10:28.13494998+01:00","level":"INFO","msg":"Log() Middleware","reqId":1,"clientIP":"127.0.0.1","reqMethod":"GET","reqURL":"/"}
-{"time":"2024-02-22T21:10:31.851139943+01:00","level":"INFO","msg":"Log() Middleware","reqId":2,"clientIP":"127.0.0.1","reqMethod":"DELETE","reqURL":"/"}
-{"time":"2024-02-22T21:10:37.898667173+01:00","level":"INFO","msg":"Log() Middleware","reqId":3,"clientIP":"127.0.0.1","reqMethod":"HEAD","reqURL":"/asdf"}
-{"time":"2024-02-22T21:10:37.898728841+01:00","level":"WARN","msg":"IndexHandlerNoMeth","reqURL":"/asdf","HttpStatus":404}
-{"time":"2024-02-22T21:10:50.484787526+01:00","level":"INFO","msg":"Log() Middleware","reqId":4,"clientIP":"127.0.0.1","reqMethod":"GET","reqURL":"/user/home"}
-{"time":"2024-02-22T21:10:50.484862534+01:00","level":"WARN","msg":"IndexHandlerNoMeth","reqURL":"/user/home","HttpStatus":404}
-{"time":"2024-02-22T21:11:00.826689865+01:00","level":"INFO","msg":"Log() Middleware","reqId":5,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/user/article"}
-{"time":"2024-02-22T21:11:00.82679246+01:00","level":"WARN","msg":"IndexHandlerNoMeth","reqURL":"/user/article","HttpStatus":404}
-{"time":"2024-02-22T21:11:04.205053887+01:00","level":"INFO","msg":"Log() Middleware","reqId":6,"clientIP":"127.0.0.1","reqMethod":"DELETE","reqURL":"/user/article"}
-{"time":"2024-02-22T21:11:04.205181275+01:00","level":"WARN","msg":"IndexHandlerNoMeth","reqURL":"/user/article","HttpStatus":404}
-{"time":"2024-02-22T21:11:09.822410333+01:00","level":"INFO","msg":"Log() Middleware","reqId":7,"clientIP":"127.0.0.1","reqMethod":"PATCH","reqURL":"/user/data"}
-{"time":"2024-02-22T21:11:09.82250783+01:00","level":"WARN","msg":"IndexHandlerNoMeth","reqURL":"/user/data","HttpStatus":404}
-{"time":"2024-02-22T21:11:20.571170283+01:00","level":"INFO","msg":"Log() Middleware","reqId":8,"clientIP":"127.0.0.1","reqMethod":"PUT","reqURL":"/"}
+{"time":"2024-02-22T22:24:45.537710807+01:00","level":"INFO","msg":"Log() Middleware","reqId":0,"clientIP":"127.0.0.1","reqMethod":"PUT","reqURL":"/"}
+{"time":"2024-02-22T22:24:49.439750425+01:00","level":"INFO","msg":"Log() Middleware","reqId":1,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/"}
+{"time":"2024-02-22T22:24:55.532097727+01:00","level":"INFO","msg":"Log() Middleware","reqId":2,"clientIP":"127.0.0.1","reqMethod":"DELETE","reqURL":"/"}
+{"time":"2024-02-22T22:24:59.37139545+01:00","level":"INFO","msg":"Log() Middleware","reqId":3,"clientIP":"127.0.0.1","reqMethod":"PATCH","reqURL":"/"}
+{"time":"2024-02-22T22:24:59.371513483+01:00","level":"WARN","msg":"IndexHandlerNoMeth","reqURL":"/","HttpStatus":405}
+{"time":"2024-02-22T22:25:12.724312697+01:00","level":"INFO","msg":"Log() Middleware","reqId":4,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/article/92342"}
+{"time":"2024-02-22T22:25:12.724429891+01:00","level":"WARN","msg":"IndexHandlerOther","reqURL":"/article/92342","HttpStatus":404}
+{"time":"2024-02-22T22:25:17.729172711+01:00","level":"INFO","msg":"Log() Middleware","reqId":5,"clientIP":"127.0.0.1","reqMethod":"DELETE","reqURL":"/article/92342"}
+{"time":"2024-02-22T22:25:17.729383423+01:00","level":"WARN","msg":"IndexHandlerOther","reqURL":"/article/92342","HttpStatus":404}

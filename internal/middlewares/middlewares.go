@@ -1,15 +1,16 @@
 package middlewares
 
 import (
-	"Middleware-test/logs"
-	"Middleware-test/models"
-	"Middleware-test/utils"
+	"Middleware-test/internal/models"
+	"Middleware-test/internal/utils"
 	"log"
 	"log/slog"
 	"net/http"
+	"os"
 )
 
-var jsonHandler = slog.NewJSONHandler(logs.Log, nil)
+var logs, _ = os.Create("logs/logs.log")
+var jsonHandler = slog.NewJSONHandler(logs, nil)
 var Logger = slog.New(jsonHandler)
 var logId = 0
 
