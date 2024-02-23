@@ -9,14 +9,14 @@ import (
 var Mux = http.NewServeMux()
 
 func Init() {
-	Mux.HandleFunc("GET /{$}", middlewares.Log()(controllers.IndexHandlerGet))
-	Mux.HandleFunc("POST /{$}", middlewares.Log()(controllers.IndexHandlerPost))
-	Mux.HandleFunc("PUT /{$}", middlewares.Log()(middlewares.Guard()(controllers.IndexHandlerPut)))
-	Mux.HandleFunc("DELETE /{$}", middlewares.Log()(middlewares.Guard()(controllers.IndexHandlerDelete)))
+	Mux.HandleFunc("GET /{$}", middlewares.Join(controllers.IndexHandlerGet, middlewares.Log()))
+	Mux.HandleFunc("POST /{$}", middlewares.Join(controllers.IndexHandlerPost, middlewares.Log()))
+	Mux.HandleFunc("PUT /{$}", middlewares.Join(controllers.IndexHandlerPut, middlewares.Log(), middlewares.Guard()))
+	Mux.HandleFunc("DELETE /{$}", middlewares.Join(controllers.IndexHandlerDelete, middlewares.Log(), middlewares.Guard(), middlewares.Foo()))
 
 	// Handling MethodNotAllowed error on /
-	Mux.HandleFunc("/{$}", middlewares.Log()(controllers.IndexHandlerNoMeth))
+	Mux.HandleFunc("/{$}", middlewares.Join(controllers.IndexHandlerNoMeth, middlewares.Log(), middlewares.Foo()))
 
 	// Handling StatusNotFound error everywhere else
-	Mux.HandleFunc("/", middlewares.Log()(controllers.IndexHandlerOther))
+	Mux.HandleFunc("/", middlewares.Join(controllers.IndexHandlerOther, middlewares.Log(), middlewares.Foo()))
 }

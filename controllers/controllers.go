@@ -11,6 +11,7 @@ import (
 )
 
 func IndexHandlerGet(w http.ResponseWriter, r *http.Request) {
+	log.Println(utils.GetCurrentFuncName())
 	tmpl, err := template.ParseFiles(utils.Path + "templates/index.gohtml")
 	if err != nil {
 		log.Fatalln(err)
@@ -22,6 +23,7 @@ func IndexHandlerGet(w http.ResponseWriter, r *http.Request) {
 }
 
 func IndexHandlerPost(w http.ResponseWriter, r *http.Request) {
+	log.Println(utils.GetCurrentFuncName())
 	tmpl, err := template.ParseFiles(utils.Path + "templates/index.gohtml")
 	if err != nil {
 		log.Fatalln(err)
@@ -33,6 +35,7 @@ func IndexHandlerPost(w http.ResponseWriter, r *http.Request) {
 }
 
 func IndexHandlerPut(w http.ResponseWriter, r *http.Request) {
+	log.Println(utils.GetCurrentFuncName())
 	tmpl, err := template.ParseFiles(utils.Path + "templates/index.gohtml")
 	if err != nil {
 		log.Fatalln(err)
@@ -44,6 +47,7 @@ func IndexHandlerPut(w http.ResponseWriter, r *http.Request) {
 }
 
 func IndexHandlerDelete(w http.ResponseWriter, r *http.Request) {
+	log.Println(utils.GetCurrentFuncName())
 	tmpl, err := template.ParseFiles(utils.Path + "templates/index.gohtml")
 	if err != nil {
 		log.Fatalln(err)
@@ -55,6 +59,7 @@ func IndexHandlerDelete(w http.ResponseWriter, r *http.Request) {
 }
 
 func IndexHandlerNoMeth(w http.ResponseWriter, r *http.Request) {
+	log.Println(utils.GetCurrentFuncName())
 	log.Println("HTTP Error", http.StatusMethodNotAllowed)
 	w.WriteHeader(http.StatusMethodNotAllowed)
 	middlewares.Logger.Warn("IndexHandlerNoMeth", slog.String("reqURL", r.URL.String()), slog.Int("HttpStatus", http.StatusMethodNotAllowed))
@@ -62,6 +67,7 @@ func IndexHandlerNoMeth(w http.ResponseWriter, r *http.Request) {
 }
 
 func IndexHandlerOther(w http.ResponseWriter, r *http.Request) {
+	log.Println(utils.GetCurrentFuncName())
 	log.Println("HTTP Error", http.StatusNotFound)
 	w.WriteHeader(http.StatusNotFound)
 	middlewares.Logger.Warn("IndexHandlerOther", slog.String("reqURL", r.URL.String()), slog.Int("HttpStatus", http.StatusNotFound))

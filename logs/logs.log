@@ -1,9 +1,1 @@
-{"time":"2024-02-22T22:24:45.537710807+01:00","level":"INFO","msg":"Log() Middleware","reqId":0,"clientIP":"127.0.0.1","reqMethod":"PUT","reqURL":"/"}
-{"time":"2024-02-22T22:24:49.439750425+01:00","level":"INFO","msg":"Log() Middleware","reqId":1,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/"}
-{"time":"2024-02-22T22:24:55.532097727+01:00","level":"INFO","msg":"Log() Middleware","reqId":2,"clientIP":"127.0.0.1","reqMethod":"DELETE","reqURL":"/"}
-{"time":"2024-02-22T22:24:59.37139545+01:00","level":"INFO","msg":"Log() Middleware","reqId":3,"clientIP":"127.0.0.1","reqMethod":"PATCH","reqURL":"/"}
-{"time":"2024-02-22T22:24:59.371513483+01:00","level":"WARN","msg":"IndexHandlerNoMeth","reqURL":"/","HttpStatus":405}
-{"time":"2024-02-22T22:25:12.724312697+01:00","level":"INFO","msg":"Log() Middleware","reqId":4,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/article/92342"}
-{"time":"2024-02-22T22:25:12.724429891+01:00","level":"WARN","msg":"IndexHandlerOther","reqURL":"/article/92342","HttpStatus":404}
-{"time":"2024-02-22T22:25:17.729172711+01:00","level":"INFO","msg":"Log() Middleware","reqId":5,"clientIP":"127.0.0.1","reqMethod":"DELETE","reqURL":"/article/92342"}
-{"time":"2024-02-22T22:25:17.729383423+01:00","level":"WARN","msg":"IndexHandlerOther","reqURL":"/article/92342","HttpStatus":404}
+{"time":"2024-02-23T11:25:11.3038294+01:00","level":"INFO","msg":"Log() Middleware","reqId":0,"clientIP":"127.0.0.1","reqMethod":"DELETE","reqURL":"/"}
