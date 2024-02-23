@@ -1,1 +1,1 @@
-{"time":"2024-02-23T11:25:11.3038294+01:00","level":"INFO","msg":"Log() Middleware","reqId":0,"clientIP":"127.0.0.1","reqMethod":"DELETE","reqURL":"/"}
+{"time":"2024-02-23T12:05:32.4696226+01:00","level":"INFO","msg":"Log() Middleware","reqId":1,"clientIP":"127.0.0.1","reqMethod":"DELETE","reqURL":"/"}
