@@ -82,6 +82,7 @@ func Guard() models.Middleware {
 	}
 }
 
+// Foo is a random models.Middleware for tests
 func Foo() models.Middleware {
 	return func(handler http.HandlerFunc) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
@@ -102,9 +103,12 @@ func Join(handlerFunc http.HandlerFunc, middlewares ...models.Middleware) http.H
 	return middlewares[0](Join(handlerFunc, middlewares[1:]...))
 }
 
-//var test models.Middleware = func(handler http.HandlerFunc) http.HandlerFunc {
-//	LogId++
-//	log.Println("Log()")
-//	Logger.Info("Log() Middleware", slog.Int("reqId", LogId), slog.String("clientIP", utils.GetIP(r)), slog.String("reqMethod", r.Method), slog.String("reqURL", r.URL.String()))
-//	handler.ServeHTTP(w, r)
-//}
+// Another way to create a middleware (maybe easier to understand)
+var Test models.Middleware = func(handler http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		LogId++
+		log.Println("Test()")
+		Logger.Info("Test() Middleware")
+		handler.ServeHTTP(w, r)
+	}
+}
