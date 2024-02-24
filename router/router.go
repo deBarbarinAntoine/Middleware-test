@@ -12,6 +12,7 @@ func Init() {
 	Mux.HandleFunc("POST /{$}", controllers.IndexHandlerPostBundle)
 	Mux.HandleFunc("PUT /{$}", controllers.IndexHandlerPutBundle)
 	Mux.HandleFunc("DELETE /{$}", controllers.IndexHandlerDeleteBundle)
+	Mux.HandleFunc("POST /add", controllers.IndexHandlerPutBundle)
 
 	// Handling MethodNotAllowed error on /
 	Mux.HandleFunc("/{$}", controllers.IndexHandlerNoMethBundle)

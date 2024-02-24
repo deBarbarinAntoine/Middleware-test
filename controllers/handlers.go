@@ -24,6 +24,7 @@ func indexHandlerGet(w http.ResponseWriter, r *http.Request) {
 
 func indexHandlerPost(w http.ResponseWriter, r *http.Request) {
 	log.Println(utils.GetCurrentFuncName())
+	utils.OpenSession(&w, r)
 	tmpl, err := template.ParseFiles(utils.Path + "templates/index.gohtml")
 	if err != nil {
 		log.Fatalln(err)
@@ -40,7 +41,8 @@ func indexHandlerPut(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	err = tmpl.ExecuteTemplate(w, "index", "indexHandlerPut")
+	sessionID, _ := r.Cookie("session_id")
+	err = tmpl.ExecuteTemplate(w, "index", "indexHandlerPut"+sessionID.Value+"\nUsername: "+utils.SessionsData[sessionID.Value].Username+"\nIP address: "+utils.SessionsData[sessionID.Value].IpAddress)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -52,7 +54,8 @@ func indexHandlerDelete(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	err = tmpl.ExecuteTemplate(w, "index", "indexHandlerDelete")
+	sessionID, _ := r.Cookie("session_id")
+	err = tmpl.ExecuteTemplate(w, "index", "indexHandlerDelete"+sessionID.Value+"\nUsername: "+utils.SessionsData[sessionID.Value].Username+"\nIP address: "+utils.SessionsData[sessionID.Value].IpAddress)
 	if err != nil {
 		log.Fatalln(err)
 	}
