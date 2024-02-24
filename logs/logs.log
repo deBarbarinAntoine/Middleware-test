@@ -1,10 +1,7 @@
-{"time":"2024-02-24T21:32:44.018178734+01:00","level":"INFO","msg":"Log() Middleware","reqId":1,"clientIP":"127.0.0.1","reqMethod":"GET","reqURL":"/"}
-{"time":"2024-02-24T21:32:44.205777782+01:00","level":"INFO","msg":"Log() Middleware","reqId":2,"clientIP":"127.0.0.1","reqMethod":"DELETE","reqURL":"/"}
-{"time":"2024-02-24T21:32:44.205852093+01:00","level":"WARN","msg":"Invalid session","reqURL":"/","HttpStatus":401}
-{"time":"2024-02-24T21:32:44.279431563+01:00","level":"INFO","msg":"Log() Middleware","reqId":3,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/"}
-{"time":"2024-02-24T21:32:44.323906589+01:00","level":"INFO","msg":"Log() Middleware","reqId":4,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/add"}
-{"time":"2024-02-24T21:33:48.829142869+01:00","level":"INFO","msg":"Log() Middleware","reqId":5,"clientIP":"127.0.0.1","reqMethod":"DELETE","reqURL":"/"}
-{"time":"2024-02-24T21:33:48.829251681+01:00","level":"WARN","msg":"Invalid session","reqURL":"/","HttpStatus":401}
-{"time":"2024-02-24T21:34:09.15431275+01:00","level":"INFO","msg":"Log() Middleware","reqId":6,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/"}
-{"time":"2024-02-24T21:34:09.306892937+01:00","level":"INFO","msg":"Log() Middleware","reqId":7,"clientIP":"127.0.0.1","reqMethod":"DELETE","reqURL":"/"}
-{"time":"2024-02-24T21:34:09.30711147+01:00","level":"INFO","msg":"Test() Middleware","reqId":8,"clientIP":"127.0.0.1","reqMethod":"DELETE","reqURL":"/"}
+{"time":"2024-02-24T21:55:18.929090264+01:00","level":"INFO","msg":"Log() Middleware","reqId":1,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/"}
+{"time":"2024-02-24T21:55:19.077554357+01:00","level":"INFO","msg":"Log() Middleware","reqId":2,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/add"}
+{"time":"2024-02-24T21:55:19.131868109+01:00","level":"INFO","msg":"Log() Middleware","reqId":3,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/add"}
+{"time":"2024-02-24T21:55:49.489739647+01:00","level":"INFO","msg":"Log() Middleware","reqId":4,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/"}
+{"time":"2024-02-24T21:55:49.574350368+01:00","level":"INFO","msg":"Log() Middleware","reqId":5,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/add"}
+{"time":"2024-02-24T21:55:49.671639127+01:00","level":"INFO","msg":"Log() Middleware","reqId":6,"clientIP":"127.0.0.1","reqMethod":"DELETE","reqURL":"/"}
+{"time":"2024-02-24T21:55:49.671861992+01:00","level":"INFO","msg":"Test() Middleware"}

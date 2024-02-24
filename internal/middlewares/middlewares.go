@@ -97,11 +97,19 @@ func Foo() models.Middleware {
 // any number of models.Middleware that will be concatenated in order like this:
 // middlewares[0](middlewares[1](middlewares[2](handlerFunc))).
 func Join(handlerFunc http.HandlerFunc, middlewares ...models.Middleware) http.HandlerFunc {
-	if len(middlewares) == 1 {
-		return middlewares[0](handlerFunc)
+	for i := len(middlewares) - 1; i >= 0; i-- {
+		handlerFunc = middlewares[i](handlerFunc)
 	}
-	return middlewares[0](Join(handlerFunc, middlewares[1:]...))
+	return handlerFunc
 }
+
+//recursive option (said to become a potential problem due to stack overflows)
+//func Join(handlerFunc http.HandlerFunc, middlewares ...models.Middleware) http.HandlerFunc {
+//	if len(middlewares) == 1 {
+//		return middlewares[0](handlerFunc)
+//	}
+//	return middlewares[0](Join(handlerFunc, middlewares[1:]...))
+//}
 
 // Another way to create a middleware (maybe easier to understand)
 var Test models.Middleware = func(handler http.HandlerFunc) http.HandlerFunc {
