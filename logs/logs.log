@@ -1,7 +1,2 @@
-{"time":"2024-02-24T21:55:18.929090264+01:00","level":"INFO","msg":"Log() Middleware","reqId":1,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/"}
-{"time":"2024-02-24T21:55:19.077554357+01:00","level":"INFO","msg":"Log() Middleware","reqId":2,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/add"}
-{"time":"2024-02-24T21:55:19.131868109+01:00","level":"INFO","msg":"Log() Middleware","reqId":3,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/add"}
-{"time":"2024-02-24T21:55:49.489739647+01:00","level":"INFO","msg":"Log() Middleware","reqId":4,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/"}
-{"time":"2024-02-24T21:55:49.574350368+01:00","level":"INFO","msg":"Log() Middleware","reqId":5,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/add"}
-{"time":"2024-02-24T21:55:49.671639127+01:00","level":"INFO","msg":"Log() Middleware","reqId":6,"clientIP":"127.0.0.1","reqMethod":"DELETE","reqURL":"/"}
-{"time":"2024-02-24T21:55:49.671861992+01:00","level":"INFO","msg":"Test() Middleware"}
+{"time":"2024-02-26T21:04:12.961737738+01:00","level":"INFO","msg":"Log() Middleware","reqId":1,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/"}
+{"time":"2024-02-26T21:04:15.956934447+01:00","level":"INFO","msg":"Log() Middleware","reqId":2,"clientIP":"127.0.0.1","reqMethod":"POST","reqURL":"/add"}

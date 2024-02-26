@@ -75,6 +75,11 @@ func Guard() models.Middleware {
 			if err != nil {
 				Logger.Error(err.Error())
 			}
+			var cookies []http.Cookie
+			cookie1, _ := r.Cookie("session_id")
+			cookie2, _ := r.Cookie("updatedCookie")
+			cookies = append(cookies, *cookie1, *cookie2)
+			log.Printf("Guard() Middleware, after RefreshSession(): %#v\n", cookies)
 			// Use user data (e.g., display username)
 			//fmt.Fprintf(w, "Welcome, user %s", userData["user_id"])
 			handler.ServeHTTP(w, r)

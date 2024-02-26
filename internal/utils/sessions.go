@@ -48,8 +48,7 @@ func RefreshSession(w *http.ResponseWriter, r *http.Request) error {
 	newSessionID := generateSessionID()
 	newExpirationTime := time.Now().Add(time.Minute)
 
-	// setting the new cookie
-	http.SetCookie(*w, &http.Cookie{
+	var newCookie = &http.Cookie{
 		Name:     "session_id",
 		Value:    newSessionID,
 		HttpOnly: true,
@@ -57,7 +56,10 @@ func RefreshSession(w *http.ResponseWriter, r *http.Request) error {
 		Path:     "/",
 		Expires:  newExpirationTime,
 		SameSite: http.SameSiteStrictMode,
-	})
+	}
+
+	// setting the new cookie
+	http.SetCookie(*w, newCookie)
 
 	// retrieving the in-memory current session data
 	cookie, err := r.Cookie("session_id")
@@ -72,6 +74,10 @@ func RefreshSession(w *http.ResponseWriter, r *http.Request) error {
 
 	// setting the new entry in the SessionsData map
 	SessionsData[newSessionID] = currentSessionData
+
+	// adding the new cookie to the request to access it from the targeted handler with the Name "updatedCookie"
+	newCookie.Name = "updatedCookie"
+	r.AddCookie(newCookie)
 
 	if err != nil {
 		return err

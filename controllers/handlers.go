@@ -41,7 +41,7 @@ func indexHandlerPut(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	sessionID, _ := r.Cookie("session_id")
+	sessionID, _ := r.Cookie("updatedCookie")
 	err = tmpl.ExecuteTemplate(w, "index", "indexHandlerPut"+sessionID.Value+"\nUsername: "+utils.SessionsData[sessionID.Value].Username+"\nIP address: "+utils.SessionsData[sessionID.Value].IpAddress)
 	if err != nil {
 		log.Fatalln(err)
@@ -54,7 +54,7 @@ func indexHandlerDelete(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	sessionID, _ := r.Cookie("session_id")
+	sessionID, _ := r.Cookie("updatedCookie")
 	err = tmpl.ExecuteTemplate(w, "index", "indexHandlerDelete"+sessionID.Value+"\nUsername: "+utils.SessionsData[sessionID.Value].Username+"\nIP address: "+utils.SessionsData[sessionID.Value].IpAddress)
 	if err != nil {
 		log.Fatalln(err)
