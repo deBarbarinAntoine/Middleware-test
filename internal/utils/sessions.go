@@ -4,7 +4,6 @@ import (
 	"Middleware-test/internal/models"
 	"crypto/rand"
 	"encoding/base64"
-	"fmt"
 	"net/http"
 	"time"
 )
@@ -12,14 +11,14 @@ import (
 // In-memory Session data storage
 var SessionsData = make(map[string]models.Session)
 
-func OpenSession(w *http.ResponseWriter, r *http.Request) {
+func OpenSession(w *http.ResponseWriter, username string, r *http.Request) {
 
 	// Generate and set Session ID cookie
 	sessionID := generateSessionID()
 	// Generate expiration time for the cookie
 	expirationTime := time.Now().Add(time.Minute)
 
-	newCookie := http.Cookie{
+	newCookie := &http.Cookie{
 		Name:     "session_id",
 		Value:    sessionID,
 		Path:     "/",
@@ -29,15 +28,14 @@ func OpenSession(w *http.ResponseWriter, r *http.Request) {
 		SameSite: http.SameSiteStrictMode,
 	}
 
-	http.SetCookie(*w, &newCookie)
-
-	fmt.Printf("%#v\n", newCookie)
+	http.SetCookie(*w, newCookie)
+	r.AddCookie(newCookie)
 
 	// Create Session data in memory
 	SessionsData[sessionID] = models.Session{
 		UserID:         777,
 		SessionID:      sessionID,
-		Username:       "Thorgan",
+		Username:       username,
 		IpAddress:      GetIP(r),
 		ExpirationTime: expirationTime,
 	}
@@ -97,4 +95,23 @@ func generateSessionID() string {
 func ValidateSessionID(sessionID string) bool {
 	_, ok := SessionsData[sessionID]
 	return len(sessionID) == 88 && ok
+}
+
+func isExpired(session models.Session) bool {
+	return session.ExpirationTime.Before(time.Now())
+}
+
+func cleanSessions() {
+	for sessionID, session := range SessionsData {
+		if isExpired(session) {
+			delete(SessionsData, sessionID)
+		}
+	}
+}
+
+func MonitorSessions() {
+	for {
+		time.Sleep(time.Hour)
+		cleanSessions()
+	}
 }
