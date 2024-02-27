@@ -133,7 +133,7 @@ func registerHandlerPost(w http.ResponseWriter, r *http.Request) {
 		password2 string
 	}{
 		username:  r.FormValue("username"),
-		email:     strings.ToLower(r.FormValue("email")),
+		email:     strings.TrimSpace(strings.ToLower(r.FormValue("email"))),
 		password1: r.FormValue("password1"),
 		password2: r.FormValue("password2"),
 	}
@@ -141,10 +141,13 @@ func registerHandlerPost(w http.ResponseWriter, r *http.Request) {
 	switch {
 	case exists:
 		http.Redirect(w, r, "register?err=username", http.StatusSeeOther)
+		return
 	case formValues.password1 != formValues.password2:
 		http.Redirect(w, r, "register?err=password", http.StatusSeeOther)
+		return
 	case !utils.CheckEmail(formValues.email):
 		http.Redirect(w, r, "register?err=email", http.StatusSeeOther)
+		return
 	}
 	hash, salt := utils.NewPwd(formValues.password1)
 	newUser := models.User{

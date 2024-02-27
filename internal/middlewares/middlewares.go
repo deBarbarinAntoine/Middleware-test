@@ -23,7 +23,13 @@ var Log models.Middleware = func(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		LogId++
 		log.Println("Log()")
-		Logger.Info("Log() Middleware", slog.Int("reqId", LogId), slog.String("clientIP", utils.GetIP(r)), slog.String("reqMethod", r.Method), slog.String("reqURL", r.URL.String()))
+		cookie, err := r.Cookie("session_id")
+		if err != nil {
+			Logger.Info("Visitor", slog.Int("reqId", LogId), slog.String("clientIP", utils.GetIP(r)), slog.String("reqMethod", r.Method), slog.String("reqURL", r.URL.String()))
+		} else {
+			Logger.Info("User", slog.Int("reqId", LogId), slog.Any("user", utils.SessionsData[cookie.Value]), slog.String("clientIP", utils.GetIP(r)), slog.String("reqMethod", r.Method), slog.String("reqURL", r.URL.String()))
+		}
+
 		next.ServeHTTP(w, r)
 	}
 }
@@ -72,11 +78,7 @@ var Guard models.Middleware = func(next http.HandlerFunc) http.HandlerFunc {
 		if err != nil {
 			Logger.Error(err.Error())
 		}
-		var cookies []http.Cookie
-		cookie1, _ := r.Cookie("session_id")
-		cookie2, _ := r.Cookie("updatedCookie")
-		cookies = append(cookies, *cookie1, *cookie2)
-		log.Printf("Guard() Middleware, after RefreshSession(): %#v\n", cookies)
+
 		// Use user data (e.g., display username)
 		//fmt.Fprintf(w, "Welcome, user %s", userData["user_id"])
 		next.ServeHTTP(w, r)

@@ -9,7 +9,7 @@ type Middleware func(handler http.HandlerFunc) http.HandlerFunc
 
 type Session struct {
 	UserID         int
-	SessionID      string
+	ConnectionID   int
 	Username       string
 	IpAddress      string
 	ExpirationTime time.Time

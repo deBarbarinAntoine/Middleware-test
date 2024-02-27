@@ -11,6 +11,30 @@ import (
 // In-memory Session data storage
 var SessionsData = make(map[string]models.Session)
 
+func retrieveSessions() []models.Session {
+	var sessions []models.Session
+	for _, session := range SessionsData {
+		sessions = append(sessions, session)
+	}
+	return sessions
+}
+
+func newConnectionID() int {
+	sessions := retrieveSessions()
+	var id int
+	var idFound bool
+	for id = 1; !idFound; id++ {
+		idFound = true
+		for _, session := range sessions {
+			if session.ConnectionID == id {
+				idFound = false
+			}
+		}
+	}
+	id--
+	return id
+}
+
 func OpenSession(w *http.ResponseWriter, username string, r *http.Request) {
 
 	// Generate and set Session ID cookie
@@ -31,10 +55,12 @@ func OpenSession(w *http.ResponseWriter, username string, r *http.Request) {
 	http.SetCookie(*w, newCookie)
 	r.AddCookie(newCookie)
 
+	user, _ := SelectUser(username)
+
 	// Create Session data in memory
 	SessionsData[sessionID] = models.Session{
-		UserID:         777,
-		SessionID:      sessionID,
+		UserID:         user.Id,
+		ConnectionID:   newConnectionID(),
 		Username:       username,
 		IpAddress:      GetIP(r),
 		ExpirationTime: expirationTime,
@@ -64,7 +90,6 @@ func RefreshSession(w *http.ResponseWriter, r *http.Request) error {
 	currentSessionData := SessionsData[cookie.Value]
 
 	// updating the sessionID and expirationTime
-	currentSessionData.SessionID = newSessionID
 	currentSessionData.ExpirationTime = newExpirationTime
 
 	// deleting previous entry in the SessionsData map
