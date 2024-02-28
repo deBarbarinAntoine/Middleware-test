@@ -1,19 +1,56 @@
 package utils
 
 import (
+	"Middleware-test/internal/models"
+	"bytes"
+	"encoding/json"
+	"fmt"
 	"log"
 	"log/slog"
 	"os"
+	"regexp"
 	"strconv"
+	"sync"
 	"time"
 )
 
+type Logs []Log
+
+type Log struct {
+	Time       time.Time      `json:"time"`
+	Level      string         `json:"level"`
+	Message    string         `json:"message"`
+	ReqId      int            `json:"req_id,omitempty"`
+	User       models.Session `json:"user,omitempty"`
+	ClientIP   string         `json:"client_ip,omitempty"`
+	ReqMethod  string         `json:"req_method,omitempty"`
+	ReqURL     string         `json:"req_url,omitempty"`
+	HttpStatus int            `json:"http_status,omitempty"`
+	ErrOutput  string         `json:"output,omitempty"`
+}
+
 var Logger *slog.Logger
+var logs *os.File
+var wg sync.WaitGroup
+
+// setDailyTimer sets the first LogInit waiting time to match midnight.
+func setDailyTimer() time.Duration {
+	t := time.Now()
+	t = t.Add(time.Hour * 24)
+	n := time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location())
+	d := n.Sub(t)
+	if d < 0 {
+		n = n.Add(24 * time.Hour)
+		d = n.Sub(t)
+	}
+	log.Println("setDailyTimer() value: ", d)
+	return d
+}
 
 // LogInit is meant to be run as a goroutine to create a new log file every day
 // appending the file's creation timestamp in its name.
 func LogInit() {
-	var logs *os.File
+	duration := setDailyTimer()
 	var jsonHandler *slog.JSONHandler
 	for {
 		filename := "logs/logs_" + time.Now().Format(time.DateOnly) + "_" + strconv.Itoa(time.Now().Hour()) + "h" + strconv.Itoa(time.Now().Minute()) + ".log"
@@ -21,6 +58,9 @@ func LogInit() {
 		logs, err = os.Open(filename)
 		if err != nil {
 			var createErr error
+			if logs != nil {
+				logs.Close()
+			}
 			logs, createErr = os.Create(filename)
 			if createErr != nil {
 				log.Println(GetCurrentFuncName(), slog.Any("output", createErr))
@@ -28,6 +68,57 @@ func LogInit() {
 		}
 		jsonHandler = slog.NewJSONHandler(logs, nil)
 		Logger = slog.New(jsonHandler)
-		time.Sleep(time.Hour * 24)
+		time.Sleep(duration)
+		duration = time.Hour * 24
 	}
+}
+
+// fetchLogInfo retrieves all Log from `file` and stores it in *log.
+func (log *Logs) fetchLogInfo(file string) {
+	fmt.Println(GetCurrentFuncName())
+	defer wg.Done()
+	filename := "logs/" + file
+	data, err := os.ReadFile(filename)
+	if len(data) == 0 {
+		return
+	}
+	lines := bytes.Split(data, []byte("\n"))
+	var singleLog Log
+	for _, line := range lines {
+		err = json.Unmarshal(line, &singleLog)
+		if err != nil {
+			return
+		}
+		*log = append(*log, singleLog)
+		fmt.Printf("singleLog: %#v\n", singleLog)
+	}
+	fmt.Printf("log: %#v\n", log)
+}
+
+func printFileNames(files []os.DirEntry) []string {
+	var result []string
+	for _, file := range files {
+		result = append(result, file.Name())
+	}
+	return result
+}
+
+// RetrieveLogs fetches all Log from all files *.log in /logs directory
+// and returns a Logs array.
+func RetrieveLogs() (logArray Logs) {
+	logFiles, err := os.ReadDir(Path + "logs/.")
+	fmt.Printf("logFiles: %#v\n", printFileNames(logFiles))
+	if err != nil {
+		Logger.Error(GetCurrentFuncName(), slog.Any("output", err))
+	} else {
+		reg := regexp.MustCompile("^[a-zA-Z0-9-_]+\\.log$")
+		for _, file := range logFiles {
+			if reg.MatchString(file.Name()) {
+				wg.Add(1)
+				go logArray.fetchLogInfo(file.Name())
+			}
+		}
+	}
+	wg.Wait()
+	return logArray
 }

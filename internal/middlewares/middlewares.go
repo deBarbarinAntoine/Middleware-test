@@ -19,9 +19,9 @@ var Log models.Middleware = func(next http.HandlerFunc) http.HandlerFunc {
 		log.Println("middlewares.Log()")
 		cookie, err := r.Cookie("session_id")
 		if err != nil {
-			utils.Logger.Info("Visitor", slog.Int("reqId", LogId), slog.String("clientIP", utils.GetIP(r)), slog.String("reqMethod", r.Method), slog.String("reqURL", r.URL.String()))
+			utils.Logger.Info("Visitor", slog.Int("req_id", LogId), slog.String("client_ip", utils.GetIP(r)), slog.String("req_method", r.Method), slog.String("req_url", r.URL.String()))
 		} else {
-			utils.Logger.Info("User", slog.Int("reqId", LogId), slog.Any("user", utils.SessionsData[cookie.Value]), slog.String("clientIP", utils.GetIP(r)), slog.String("reqMethod", r.Method), slog.String("reqURL", r.URL.String()))
+			utils.Logger.Info("User", slog.Int("req_id", LogId), slog.Any("user", utils.SessionsData[cookie.Value]), slog.String("client_ip", utils.GetIP(r)), slog.String("req_method", r.Method), slog.String("req_url", r.URL.String()))
 		}
 		next.ServeHTTP(w, r)
 	}
@@ -36,7 +36,7 @@ var Guard models.Middleware = func(next http.HandlerFunc) http.HandlerFunc {
 		// Checks if the user has a valid opened session
 		ok := utils.CheckSession(r)
 		if !ok {
-			utils.Logger.Warn("Invalid session", slog.Int("reqId", LogId), slog.String("reqURL", r.URL.String()), slog.Int("HttpStatus", http.StatusUnauthorized))
+			utils.Logger.Warn("Invalid session", slog.Int("req_id", LogId), slog.String("req_url", r.URL.String()), slog.Int("http_status", http.StatusUnauthorized))
 			// Todo: Handle missing session (e.g., redirect to login)
 			http.Error(w, "Invalid session", http.StatusUnauthorized)
 			return
@@ -44,7 +44,7 @@ var Guard models.Middleware = func(next http.HandlerFunc) http.HandlerFunc {
 
 		err := utils.RefreshSession(&w, r)
 		if err != nil {
-			utils.Logger.Error(utils.GetCurrentFuncName(), slog.Any("output", err), slog.Int("reqId", LogId))
+			utils.Logger.Error(utils.GetCurrentFuncName(), slog.Any("output", err), slog.Int("req_id", LogId))
 		}
 
 		// Use user data (e.g., display username)
@@ -62,7 +62,7 @@ var UserCheck models.Middleware = func(next http.HandlerFunc) http.HandlerFunc {
 		if exists {
 			err := utils.RefreshSession(&w, r)
 			if err != nil {
-				utils.Logger.Error(utils.GetCurrentFuncName(), slog.Any("output", err), slog.Int("reqId", LogId))
+				utils.Logger.Error(utils.GetCurrentFuncName(), slog.Any("output", err), slog.Int("req_id", LogId))
 			}
 		}
 		next.ServeHTTP(w, r)

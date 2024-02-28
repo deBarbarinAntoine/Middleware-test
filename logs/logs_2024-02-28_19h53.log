@@ -1,0 +1,2 @@
+{"time":"2024-02-28T19:53:12.538585001+01:00","level":"INFO","msg":"Visitor","req_id":1,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs"}
+{"time":"2024-02-28T19:53:12.538770012+01:00","level":"ERROR","msg":"Middleware-test/internal/utils.RetrieveLogs","output":"readdirent logs/logs_2024-02-28_19h53.log: not a directory"}

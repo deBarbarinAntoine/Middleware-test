@@ -3,7 +3,7 @@ package utils
 import (
 	"Middleware-test/internal/models"
 	"encoding/json"
-	"log"
+	"log/slog"
 	"os"
 )
 
@@ -34,11 +34,11 @@ func retrieveUsers() ([]models.User, error) {
 func changeUsers(users []models.User) {
 	data, errJSON := json.Marshal(users)
 	if errJSON != nil {
-		log.Fatal("log: CreateUser()\t JSON Marshall error!\n", errJSON)
+		Logger.Error(GetCurrentFuncName()+" JSON Marshall error!", slog.Any("output", errJSON))
 	}
 	errWrite := os.WriteFile(jsonFile, data, 0666)
 	if errWrite != nil {
-		log.Fatal("log: CreateUser()\t WriteFile error!\n", errWrite)
+		Logger.Error(GetCurrentFuncName()+" WriteFile error!", slog.Any("output", errWrite))
 	}
 }
 
@@ -47,7 +47,7 @@ func changeUsers(users []models.User) {
 func GetIdNewUser() int {
 	users, err := retrieveUsers()
 	if err != nil {
-		log.Fatal("log: retrieveUsers() error!\n", err)
+		Logger.Error(GetCurrentFuncName(), slog.Any("output", err))
 	}
 	var id int
 	var idFound bool
@@ -68,7 +68,7 @@ func GetIdNewUser() int {
 func CreateUser(newUser models.User) {
 	users, err := retrieveUsers()
 	if err != nil {
-		log.Fatal("log: retrieveUsers() error!\n", err)
+		Logger.Error(GetCurrentFuncName(), slog.Any("output", err))
 	}
 	users = append(users, newUser)
 	changeUsers(users)
@@ -79,7 +79,7 @@ func CreateUser(newUser models.User) {
 func removeUser(id int) {
 	users, err := retrieveUsers()
 	if err != nil {
-		log.Fatal("log: retrieveUsers() error!\n", err)
+		Logger.Error(GetCurrentFuncName(), slog.Any("output", err))
 	}
 	for i, user := range users {
 		if user.Id == id {
@@ -95,7 +95,7 @@ func SelectUser(username string) (models.User, bool) {
 	var user models.User
 	users, err := retrieveUsers()
 	if err != nil {
-		log.Fatal("log: retrieveUsers() error!\n", err)
+		Logger.Error(GetCurrentFuncName(), slog.Any("output", err))
 	}
 	var ok bool
 	for _, singleUser := range users {
@@ -113,7 +113,7 @@ func SelectUser(username string) (models.User, bool) {
 func updateUser(updatedUser models.User) {
 	users, err := retrieveUsers()
 	if err != nil {
-		log.Fatal("log: retrieveUsers() error!\n", err)
+		Logger.Error(GetCurrentFuncName(), slog.Any("output", err))
 	}
 	for i, user := range users {
 		if user.Id == updatedUser.Id {

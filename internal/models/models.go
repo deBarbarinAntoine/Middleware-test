@@ -8,11 +8,11 @@ import (
 type Middleware func(handler http.HandlerFunc) http.HandlerFunc
 
 type Session struct {
-	UserID         int
-	ConnectionID   int
-	Username       string
-	IpAddress      string
-	ExpirationTime time.Time
+	UserID         int       `json:"user_id"`
+	ConnectionID   int       `json:"connection_id"`
+	Username       string    `json:"username"`
+	IpAddress      string    `json:"ip_address"`
+	ExpirationTime time.Time `json:"expiration_time"`
 }
 
 type Credentials struct {

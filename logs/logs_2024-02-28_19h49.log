@@ -1,0 +1,8 @@
+{"time":"2024-02-28T19:49:32.384246379+01:00","level":"INFO","msg":"Visitor","req_id":1,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/"}
+{"time":"2024-02-28T19:49:32.460716+01:00","level":"INFO","msg":"Visitor","req_id":2,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/favicon.ico"}
+{"time":"2024-02-28T19:49:32.460837804+01:00","level":"WARN","msg":"indexHandlerOther","req_id":2,"req_url":"/favicon.ico","http_status":404}
+{"time":"2024-02-28T19:49:38.257441157+01:00","level":"INFO","msg":"Visitor","req_id":3,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/login"}
+{"time":"2024-02-28T19:49:42.021635664+01:00","level":"INFO","msg":"Visitor","req_id":4,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/log"}
+{"time":"2024-02-28T19:49:42.021792599+01:00","level":"WARN","msg":"indexHandlerOther","req_id":4,"req_url":"/log","http_status":404}
+{"time":"2024-02-28T19:49:44.933320054+01:00","level":"INFO","msg":"Visitor","req_id":5,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs"}
+{"time":"2024-02-28T19:49:44.933513097+01:00","level":"ERROR","msg":"Middleware-test/internal/utils.RetrieveLogs","output":"readdirent logs/logs_2024-02-28_19h49.log: not a directory"}

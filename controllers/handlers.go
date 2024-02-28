@@ -4,6 +4,7 @@ import (
 	"Middleware-test/internal/middlewares"
 	"Middleware-test/internal/models"
 	"Middleware-test/internal/utils"
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"log"
@@ -54,7 +55,7 @@ func indexHandlerNoMeth(w http.ResponseWriter, r *http.Request) {
 	log.Println(utils.GetCurrentFuncName())
 	log.Println("HTTP Error", http.StatusMethodNotAllowed)
 	w.WriteHeader(http.StatusMethodNotAllowed)
-	utils.Logger.Warn("indexHandlerNoMeth", slog.Int("reqID", middlewares.LogId), slog.String("reqURL", r.URL.String()), slog.Int("HttpStatus", http.StatusMethodNotAllowed))
+	utils.Logger.Warn("indexHandlerNoMeth", slog.Int("req_id", middlewares.LogId), slog.String("req_url", r.URL.String()), slog.Int("http_status", http.StatusMethodNotAllowed))
 	w.Write([]byte("Error " + fmt.Sprint(http.StatusMethodNotAllowed) + " !"))
 }
 
@@ -62,7 +63,7 @@ func indexHandlerOther(w http.ResponseWriter, r *http.Request) {
 	log.Println(utils.GetCurrentFuncName())
 	log.Println("HTTP Error", http.StatusNotFound)
 	w.WriteHeader(http.StatusNotFound)
-	utils.Logger.Warn("indexHandlerOther", slog.Int("reqID", middlewares.LogId), slog.String("reqURL", r.URL.String()), slog.Int("HttpStatus", http.StatusNotFound))
+	utils.Logger.Warn("indexHandlerOther", slog.Int("req_id", middlewares.LogId), slog.String("req_url", r.URL.String()), slog.Int("http_status", http.StatusNotFound))
 	w.Write([]byte("Error " + fmt.Sprint(http.StatusNotFound) + " !"))
 }
 
@@ -171,4 +172,10 @@ func homeHandlerGet(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalln(err)
 	}
+}
+
+func logHandlerGet(w http.ResponseWriter, r *http.Request) {
+	log.Println(utils.GetCurrentFuncName())
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(utils.RetrieveLogs())
 }
