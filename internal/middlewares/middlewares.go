@@ -3,33 +3,26 @@ package middlewares
 import (
 	"Middleware-test/internal/models"
 	"Middleware-test/internal/utils"
-	"fmt"
 	"log"
 	"log/slog"
 	"net/http"
-	"os"
-	"time"
 )
 
-var logs, _ = os.Create("logs/logs.log")
-var jsonHandler = slog.NewJSONHandler(logs, nil)
-var Logger = slog.New(jsonHandler)
 var LogId = 0
 
 // Log is a models.Middleware that writes a series of information in logs/logs.log
-// in JSON format: time, function name, request Id (incremented int),
-// client IP, request Method, and request URL.
+// in JSON format: time, client's type, request Id (incremented int),
+// user's models.Session (if logged), client IP, request Method, and request URL.
 var Log models.Middleware = func(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		LogId++
-		log.Println("Log()")
+		log.Println("middlewares.Log()")
 		cookie, err := r.Cookie("session_id")
 		if err != nil {
-			Logger.Info("Visitor", slog.Int("reqId", LogId), slog.String("clientIP", utils.GetIP(r)), slog.String("reqMethod", r.Method), slog.String("reqURL", r.URL.String()))
+			utils.Logger.Info("Visitor", slog.Int("reqId", LogId), slog.String("clientIP", utils.GetIP(r)), slog.String("reqMethod", r.Method), slog.String("reqURL", r.URL.String()))
 		} else {
-			Logger.Info("User", slog.Int("reqId", LogId), slog.Any("user", utils.SessionsData[cookie.Value]), slog.String("clientIP", utils.GetIP(r)), slog.String("reqMethod", r.Method), slog.String("reqURL", r.URL.String()))
+			utils.Logger.Info("User", slog.Int("reqId", LogId), slog.Any("user", utils.SessionsData[cookie.Value]), slog.String("clientIP", utils.GetIP(r)), slog.String("reqMethod", r.Method), slog.String("reqURL", r.URL.String()))
 		}
-
 		next.ServeHTTP(w, r)
 	}
 }
@@ -38,45 +31,20 @@ var Log models.Middleware = func(next http.HandlerFunc) http.HandlerFunc {
 // through the cookies and let it pass if ok, and redirects if not.
 var Guard models.Middleware = func(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		log.Println("Guard()")
-		// Extract session ID from cookie
-		cookie, err := r.Cookie("session_id")
-		if err != nil || !utils.ValidateSessionID(cookie.Value) {
-			// Handle invalid session (e.g., redirect to login)
-			Logger.Warn("Invalid session", slog.String("reqURL", r.URL.String()), slog.Int("HttpStatus", http.StatusUnauthorized))
-			http.Error(w, "Invalid session", http.StatusUnauthorized)
-			return
-		}
+		log.Println("middlewares.Guard()")
 
-		// Retrieve user data from session
-		userData, ok := utils.SessionsData[cookie.Value]
+		// Checks if the user has a valid opened session
+		ok := utils.CheckSession(r)
 		if !ok {
-			// Handle missing session (e.g., redirect to login)
-			Logger.Warn("Invalid session", slog.String("reqURL", r.URL.String()), slog.Int("HttpStatus", http.StatusUnauthorized))
+			utils.Logger.Warn("Invalid session", slog.Int("reqId", LogId), slog.String("reqURL", r.URL.String()), slog.Int("HttpStatus", http.StatusUnauthorized))
+			// Todo: Handle missing session (e.g., redirect to login)
 			http.Error(w, "Invalid session", http.StatusUnauthorized)
 			return
 		}
 
-		// Verify user IP address
-		if userData.IpAddress != utils.GetIP(r) {
-			// Handle missing session (e.g., redirect to login)
-			Logger.Warn("Invalid session", slog.String("reqURL", r.URL.String()), slog.Int("HttpStatus", http.StatusUnauthorized))
-			http.Error(w, "Invalid session", http.StatusUnauthorized)
-			return
-		}
-
-		// Verify expiration time
-		fmt.Printf("%#v\n", cookie)
-		if userData.ExpirationTime.Before(time.Now()) {
-			// Handle missing session (e.g., redirect to login)
-			Logger.Warn("Invalid session", slog.String("reqURL", r.URL.String()), slog.Int("HttpStatus", http.StatusUnauthorized))
-			http.Error(w, "Invalid session", http.StatusUnauthorized)
-			return
-		}
-
-		err = utils.RefreshSession(&w, r)
+		err := utils.RefreshSession(&w, r)
 		if err != nil {
-			Logger.Error(err.Error())
+			utils.Logger.Error(utils.GetCurrentFuncName(), slog.Any("output", err), slog.Int("reqId", LogId))
 		}
 
 		// Use user data (e.g., display username)
@@ -85,10 +53,32 @@ var Guard models.Middleware = func(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
-// Foo is a random models.Middleware for tests
-var Foo models.Middleware = func(next http.HandlerFunc) http.HandlerFunc {
+// UserCheck is a models.Middleware that checks if the client is logged,
+// and if yes, it refreshes its sessionID
+var UserCheck models.Middleware = func(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		log.Println("Foo()")
+		log.Println("middlewares.UserCheck()")
+		exists := utils.CheckSession(r)
+		if exists {
+			err := utils.RefreshSession(&w, r)
+			if err != nil {
+				utils.Logger.Error(utils.GetCurrentFuncName(), slog.Any("output", err), slog.Int("reqId", LogId))
+			}
+		}
+		next.ServeHTTP(w, r)
+	}
+}
+
+// OnlyVisitors is a models.Middleware that checks if the client is logged,
+// and if yes, it redirects to the index handler.
+var OnlyVisitors models.Middleware = func(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Println("middlewares.OnlyVisitors()")
+		exists := utils.CheckSession(r)
+		if exists {
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+			return
+		}
 		next.ServeHTTP(w, r)
 	}
 }

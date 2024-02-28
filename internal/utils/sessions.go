@@ -67,6 +67,31 @@ func OpenSession(w *http.ResponseWriter, username string, r *http.Request) {
 	}
 }
 
+// CheckSession checks if there is a cookie in the request
+// and if yes, it checks if the corresponding models.Session
+// is still valid and returns true if all verifications are ok.
+func CheckSession(r *http.Request) bool {
+	// Extract session ID from cookie
+	cookie, err := r.Cookie("session_id")
+	if err != nil || !validateSessionID(cookie.Value) {
+		return false
+	}
+	// Retrieve user data from session
+	session, ok := SessionsData[cookie.Value]
+	if !ok {
+		return ok
+	}
+	// Verify user IP address
+	if session.IpAddress != GetIP(r) {
+		return false
+	}
+	// Verify expiration time
+	if session.ExpirationTime.Before(time.Now()) {
+		return false
+	}
+	return true
+}
+
 func RefreshSession(w *http.ResponseWriter, r *http.Request) error {
 	// generating new sessionID and new expiration time
 	newSessionID := generateSessionID()
@@ -117,7 +142,7 @@ func generateSessionID() string {
 	return base64.URLEncoding.EncodeToString(b)
 }
 
-func ValidateSessionID(sessionID string) bool {
+func validateSessionID(sessionID string) bool {
 	_, ok := SessionsData[sessionID]
 	return len(sessionID) == 88 && ok
 }

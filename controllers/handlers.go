@@ -54,7 +54,7 @@ func indexHandlerNoMeth(w http.ResponseWriter, r *http.Request) {
 	log.Println(utils.GetCurrentFuncName())
 	log.Println("HTTP Error", http.StatusMethodNotAllowed)
 	w.WriteHeader(http.StatusMethodNotAllowed)
-	middlewares.Logger.Warn("indexHandlerNoMeth", slog.String("reqURL", r.URL.String()), slog.Int("HttpStatus", http.StatusMethodNotAllowed))
+	utils.Logger.Warn("indexHandlerNoMeth", slog.Int("reqID", middlewares.LogId), slog.String("reqURL", r.URL.String()), slog.Int("HttpStatus", http.StatusMethodNotAllowed))
 	w.Write([]byte("Error " + fmt.Sprint(http.StatusMethodNotAllowed) + " !"))
 }
 
@@ -62,7 +62,7 @@ func indexHandlerOther(w http.ResponseWriter, r *http.Request) {
 	log.Println(utils.GetCurrentFuncName())
 	log.Println("HTTP Error", http.StatusNotFound)
 	w.WriteHeader(http.StatusNotFound)
-	middlewares.Logger.Warn("indexHandlerOther", slog.String("reqURL", r.URL.String()), slog.Int("HttpStatus", http.StatusNotFound))
+	utils.Logger.Warn("indexHandlerOther", slog.Int("reqID", middlewares.LogId), slog.String("reqURL", r.URL.String()), slog.Int("HttpStatus", http.StatusNotFound))
 	w.Write([]byte("Error " + fmt.Sprint(http.StatusNotFound) + " !"))
 }
 
