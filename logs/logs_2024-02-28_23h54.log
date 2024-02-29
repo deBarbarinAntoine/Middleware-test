@@ -1,0 +1,11 @@
+{"time":"2024-02-28T23:54:45.763771874+01:00","level":"INFO","msg":"Visitor","req_id":1,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?level=ERROR"}
+{"time":"2024-02-28T23:54:54.020609744+01:00","level":"INFO","msg":"Visitor","req_id":2,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?level=wArN"}
+{"time":"2024-02-28T23:55:03.150770054+01:00","level":"INFO","msg":"Visitor","req_id":3,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?level=info"}
+{"time":"2024-02-28T23:55:14.959968249+01:00","level":"INFO","msg":"Visitor","req_id":4,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?level=error"}
+{"time":"2024-02-28T23:56:02.295217348+01:00","level":"INFO","msg":"Visitor","req_id":5,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs"}
+{"time":"2024-02-28T23:56:16.649646987+01:00","level":"INFO","msg":"Visitor","req_id":6,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?level=warn"}
+{"time":"2024-02-28T23:56:24.651315975+01:00","level":"INFO","msg":"Visitor","req_id":7,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?level=error"}
+{"time":"2024-02-28T23:56:29.805707071+01:00","level":"INFO","msg":"Visitor","req_id":8,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?level=info"}
+{"time":"2024-02-28T23:56:40.447738223+01:00","level":"INFO","msg":"Visitor","req_id":9,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?level=info"}
+{"time":"2024-02-28T23:56:43.12637927+01:00","level":"INFO","msg":"Visitor","req_id":10,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?level=infodfsedfes"}
+{"time":"2024-02-28T23:56:49.546404995+01:00","level":"INFO","msg":"Visitor","req_id":11,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?level=info"}

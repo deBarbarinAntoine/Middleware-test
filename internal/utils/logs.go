@@ -9,7 +9,9 @@ import (
 	"log/slog"
 	"os"
 	"regexp"
+	"sort"
 	"strconv"
+	"strings"
 	"sync"
 	"time"
 )
@@ -120,5 +122,45 @@ func RetrieveLogs() (logArray Logs) {
 		}
 	}
 	wg.Wait()
+	logArray.sortLogs()
 	return logArray
+}
+
+// sortLogs sort all Log from the newest to the oldest.
+func (log *Logs) sortLogs() {
+	sort.Slice(*log, func(i, j int) bool {
+		return (*log)[i].Time.After((*log)[j].Time)
+	})
+}
+
+// FetchLevelLogs filters Log returning only Log matching the given `level`.
+func FetchAttrLogs(attr string, value string) Logs {
+	attr = strings.ToLower(attr)
+	logs := RetrieveLogs()
+	var result Logs
+	switch attr {
+	case "level":
+		switch strings.ToUpper(value) {
+		case "INFO", "WARN", "ERROR":
+			for _, singleLog := range logs {
+				if singleLog.Level == strings.ToUpper(value) {
+					result = append(result, singleLog)
+				}
+			}
+			break
+		default:
+			return nil
+		}
+	case "user", "username":
+		for _, singleLog := range logs {
+			if strings.ToLower(singleLog.User.Username) == strings.ToLower(value) {
+				result = append(result, singleLog)
+			}
+		}
+		break
+	default:
+		return nil
+	}
+	result.sortLogs()
+	return result
 }

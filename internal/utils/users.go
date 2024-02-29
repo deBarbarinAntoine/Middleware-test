@@ -32,9 +32,10 @@ func retrieveUsers() ([]models.User, error) {
 // changeUsers
 // overwrites jsonFile with `users` in json format.
 func changeUsers(users []models.User) {
-	data, errJSON := json.Marshal(users)
+	data, errJSON := json.MarshalIndent(users, "", "\t")
 	if errJSON != nil {
-		Logger.Error(GetCurrentFuncName()+" JSON Marshall error!", slog.Any("output", errJSON))
+		Logger.Error(GetCurrentFuncName()+" JSON MarshalIndent error!", slog.Any("output", errJSON))
+		return
 	}
 	errWrite := os.WriteFile(jsonFile, data, 0666)
 	if errWrite != nil {

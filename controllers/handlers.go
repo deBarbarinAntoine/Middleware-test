@@ -177,5 +177,12 @@ func homeHandlerGet(w http.ResponseWriter, r *http.Request) {
 func logHandlerGet(w http.ResponseWriter, r *http.Request) {
 	log.Println(utils.GetCurrentFuncName())
 	w.Header().Set("Content-Type", "application/json")
+	if r.URL.Query().Has("level") {
+		json.NewEncoder(w).Encode(utils.FetchAttrLogs("level", r.URL.Query().Get("level")))
+		return
+	} else if r.URL.Query().Has("user") {
+		json.NewEncoder(w).Encode(utils.FetchAttrLogs("user", r.URL.Query().Get("user")))
+		return
+	}
 	json.NewEncoder(w).Encode(utils.RetrieveLogs())
 }
