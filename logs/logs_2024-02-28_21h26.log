@@ -1,4 +1,0 @@
-{"time":"2024-02-28T21:26:42.336622595+01:00","level":"INFO","msg":"Visitor","req_id":1,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs"}
-{"time":"2024-02-28T21:30:21.010814904+01:00","level":"INFO","msg":"Visitor","req_id":2,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/"}
-{"time":"2024-02-28T21:30:28.351953773+01:00","level":"INFO","msg":"Visitor","req_id":3,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs"}
-{"time":"2024-02-28T21:32:42.402988512+01:00","level":"INFO","msg":"Visitor","req_id":4,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs"}

@@ -1,2 +1,0 @@
-{"time":"2024-02-28T21:35:58.857177308+01:00","level":"INFO","msg":"Visitor","req_id":1,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs"}
-{"time":"2024-02-28T21:39:47.729561878+01:00","level":"INFO","msg":"Visitor","req_id":2,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs"}

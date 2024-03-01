@@ -1,9 +1,0 @@
-{"time":"2024-02-29T00:06:50.406685708+01:00","level":"INFO","msg":"Visitor","req_id":1,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?level=info"}
-{"time":"2024-02-29T00:06:55.879986475+01:00","level":"INFO","msg":"Visitor","req_id":2,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?level=error"}
-{"time":"2024-02-29T00:07:01.139848154+01:00","level":"INFO","msg":"Visitor","req_id":3,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?level=henry"}
-{"time":"2024-02-29T00:07:04.717359819+01:00","level":"INFO","msg":"Visitor","req_id":4,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?user=henry"}
-{"time":"2024-02-29T00:07:08.028163004+01:00","level":"INFO","msg":"Visitor","req_id":5,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?user=antoine"}
-{"time":"2024-02-29T00:07:21.588578723+01:00","level":"INFO","msg":"Visitor","req_id":6,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?user=marie"}
-{"time":"2024-02-29T00:07:30.117541067+01:00","level":"INFO","msg":"Visitor","req_id":7,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?user=henry"}
-{"time":"2024-02-29T00:07:39.303896624+01:00","level":"INFO","msg":"Visitor","req_id":8,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?user=toto"}
-{"time":"2024-02-29T00:07:50.519136682+01:00","level":"INFO","msg":"Visitor","req_id":9,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/logs?user=marie"}
