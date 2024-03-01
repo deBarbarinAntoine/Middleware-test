@@ -10,7 +10,6 @@ import (
 	"os"
 	"regexp"
 	"sort"
-	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -55,7 +54,7 @@ func LogInit() {
 	duration := setDailyTimer()
 	var jsonHandler *slog.JSONHandler
 	for {
-		filename := "logs/logs_" + time.Now().Format(time.DateOnly) + "_" + strconv.Itoa(time.Now().Hour()) + "h" + strconv.Itoa(time.Now().Minute()) + ".log"
+		filename := "logs/logs_" + time.Now().Format(time.DateOnly) + ".log"
 		var err error
 		logs, err = os.Open(filename)
 		if err != nil {

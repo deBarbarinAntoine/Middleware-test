@@ -1,0 +1,5 @@
+{"time":"2024-03-01T13:10:48.229608376+01:00","level":"INFO","msg":"Visitor","req_id":1,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/"}
+{"time":"2024-03-01T13:10:54.125285924+01:00","level":"INFO","msg":"Visitor","req_id":2,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/register"}
+{"time":"2024-03-01T13:11:08.830849969+01:00","level":"INFO","msg":"Visitor","req_id":3,"client_ip":"127.0.0.1","req_method":"POST","req_url":"/register"}
+{"time":"2024-03-01T13:11:09.711925844+01:00","level":"INFO","msg":"Email sent successfully!","user":{"id":4,"username":"thorgdar","hash":"c0eeba71b068d0cc7869506c5713deef7ae45ef7402b122fe9dcee314e984ccebacfa4a25a88ee77f04c4705ebb68f752e6b7a67cec807a0f9fe79f6dc1b0d9c","salt":"2gb7FgrxEm6h4oHoVAvIJkiywDHdyap310Iaa5PJsAmu6fNNxst8EPIZAtpAiG9HemtSWqfOmSffsXT5gXWwpg==","email":"thorgdar@gmail.com"}}
+{"time":"2024-03-01T13:11:09.715159704+01:00","level":"INFO","msg":"Visitor","req_id":4,"client_ip":"127.0.0.1","req_method":"GET","req_url":"/login"}

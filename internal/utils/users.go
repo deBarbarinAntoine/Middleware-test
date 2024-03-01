@@ -3,11 +3,14 @@ package utils
 import (
 	"Middleware-test/internal/models"
 	"encoding/json"
+	"log"
 	"log/slog"
 	"os"
+	"time"
 )
 
 var jsonFile = Path + "data/users.json"
+var TempUsers []models.TempUser
 
 // retrieveUsers
 // retrieves all models.User present in jsonFile and stores them in a slice of models.User.
@@ -122,4 +125,37 @@ func updateUser(updatedUser models.User) {
 		}
 	}
 	changeUsers(users)
+}
+
+func deleteTempUser(temp models.TempUser) {
+	for i, user := range TempUsers {
+		if user == temp {
+			TempUsers = append(TempUsers[:i], TempUsers[i+1:]...)
+		}
+	}
+}
+
+func PushTempUser(id string) {
+	log.Printf("TempUsers: %#v\n", TempUsers)
+	log.Printf("id: %#v\n", id)
+	for _, temp := range TempUsers {
+		if temp.ConfirmID == id {
+			temp.User.Id = GetIdNewUser()
+			CreateUser(temp.User)
+			deleteTempUser(temp)
+		}
+	}
+}
+
+func ManageTempUsers() {
+	duration := setDailyTimer()
+	for {
+		for _, user := range TempUsers {
+			if time.Now().Sub(user.CreationTime) > time.Hour*12 {
+				deleteTempUser(user)
+			}
+		}
+		time.Sleep(duration)
+		duration = time.Hour * 24
+	}
 }

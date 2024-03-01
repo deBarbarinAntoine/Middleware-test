@@ -11,6 +11,7 @@ import (
 	"log/slog"
 	"net/http"
 	"strings"
+	"time"
 )
 
 func indexHandlerGet(w http.ResponseWriter, r *http.Request) {
@@ -151,14 +152,20 @@ func registerHandlerPost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	hash, salt := utils.NewPwd(formValues.password1)
-	newUser := models.User{
-		Id:        utils.GetIdNewUser(),
-		Username:  formValues.username,
-		HashedPwd: hash,
-		Salt:      salt,
-		Email:     formValues.email,
+	newTempUser := models.TempUser{
+		ConfirmID:    "",
+		CreationTime: time.Now(),
+		User: models.User{
+			Id:        0,
+			Username:  formValues.username,
+			HashedPwd: hash,
+			Salt:      salt,
+			Email:     formValues.email,
+		},
 	}
-	utils.CreateUser(newUser)
+	utils.SendMail(&newTempUser)
+	utils.TempUsers = append(utils.TempUsers, newTempUser)
+	log.Printf("newTempUser: %#v\n", newTempUser)
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 
@@ -185,4 +192,13 @@ func logHandlerGet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	json.NewEncoder(w).Encode(utils.RetrieveLogs())
+}
+
+func confirmHandlerGet(w http.ResponseWriter, r *http.Request) {
+	log.Println(utils.GetCurrentFuncName())
+	if r.URL.Query().Has("id") {
+		id := r.URL.Query().Get("id")
+		utils.PushTempUser(id)
+		http.Redirect(w, r, "/login", http.StatusSeeOther)
+	}
 }

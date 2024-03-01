@@ -27,3 +27,16 @@ type User struct {
 	Salt      string `json:"salt"`
 	Email     string `json:"email"`
 }
+
+type TempUser struct {
+	ConfirmID    string
+	CreationTime time.Time
+	User         User
+}
+
+type MailConfig struct {
+	Email    string `json:"email_addr"`
+	Auth     string `json:"email_auth"`
+	Hostname string `json:"host"`
+	Port     int    `json:"port"`
+}

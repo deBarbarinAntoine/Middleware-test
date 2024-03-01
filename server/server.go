@@ -21,6 +21,9 @@ func Run() {
 	// Running the goroutine to change log file every given time
 	go utils.LogInit()
 
+	// Running the goroutine to automatically remove old TempUsers
+	go utils.ManageTempUsers()
+
 	// Running the server
 	log.Fatalln(http.ListenAndServe(":8080", router.Mux))
 }
