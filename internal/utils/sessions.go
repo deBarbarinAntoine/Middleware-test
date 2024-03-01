@@ -133,6 +133,27 @@ func RefreshSession(w *http.ResponseWriter, r *http.Request) error {
 	return nil
 }
 
+func Logout(w *http.ResponseWriter, r *http.Request) {
+	var newCookie = &http.Cookie{
+		Name:     "session_id",
+		Value:    "",
+		HttpOnly: true,
+		Secure:   false, // Use only if using HTTPS
+		Path:     "/",
+		MaxAge:   -1,
+		SameSite: http.SameSiteStrictMode,
+	}
+
+	// setting the new cookie
+	http.SetCookie(*w, newCookie)
+
+	// retrieving the in-memory current session data
+	cookie, _ := r.Cookie("updatedCookie")
+
+	// deleting previous entry in the SessionsData map
+	delete(SessionsData, cookie.Value)
+}
+
 func generateSessionID() string {
 	b := make([]byte, 64)
 	_, err := rand.Read(b)

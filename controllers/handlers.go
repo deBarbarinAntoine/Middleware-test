@@ -202,3 +202,9 @@ func confirmHandlerGet(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/login", http.StatusSeeOther)
 	}
 }
+
+func logoutHandlerGet(w http.ResponseWriter, r *http.Request) {
+	log.Println(utils.GetCurrentFuncName())
+	utils.Logout(&w, r)
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+}
