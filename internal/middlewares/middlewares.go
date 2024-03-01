@@ -10,7 +10,7 @@ import (
 
 var LogId = 0
 
-// Log is a models.Middleware that writes a series of information in logs/logs.log
+// Log is a models.Middleware that writes a series of information in logs/logs_<date>.log
 // in JSON format: time, client's type, request Id (incremented int),
 // user's models.Session (if logged), client IP, request Method, and request URL.
 var Log models.Middleware = func(next http.HandlerFunc) http.HandlerFunc {

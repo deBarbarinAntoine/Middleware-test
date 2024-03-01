@@ -38,6 +38,7 @@ func generateMessageID(domain string) string {
 
 }
 
+// fetchConfig retrieves the models.MailConfig from config/config.json
 func fetchConfig() models.MailConfig {
 	var config models.MailConfig
 
@@ -57,6 +58,7 @@ func fetchConfig() models.MailConfig {
 	return config
 }
 
+// SendMail sends a mail to models.TempUser to create his account
 func SendMail(temp *models.TempUser) {
 	// Fetching mail configuration
 	config := fetchConfig()
@@ -67,6 +69,7 @@ func SendMail(temp *models.TempUser) {
 	// Generating confirmation Id
 	temp.ConfirmID = generateConfirmationID()
 
+	// Setting the headers
 	header := make(map[string]string)
 	header["From"] = "Account management" + "<" + config.Email + ">"
 	header["To"] = temp.User.Email
@@ -82,7 +85,7 @@ func SendMail(temp *models.TempUser) {
 	// Create a buffer to hold the formatted message
 	var body bytes.Buffer
 
-	// Execute template with data
+	// Execute the mail's template with data
 	err = t.Execute(&body, struct {
 		Username  string
 		ConfirmID string
@@ -100,6 +103,7 @@ func SendMail(temp *models.TempUser) {
 	}
 	message += "\r\n" + body.String()
 
+	// Setting the authentication
 	auth := smtp.PlainAuth(
 		"",
 		config.Email,
@@ -107,7 +111,8 @@ func SendMail(temp *models.TempUser) {
 		config.Hostname,
 	)
 
-	err = SendMailUsingTLS(
+	// Sending the mail using TLS
+	err = sendMailTLS(
 		fmt.Sprintf("%s:%d", config.Hostname, config.Port),
 		auth,
 		config.Email,
@@ -122,32 +127,34 @@ func SendMail(temp *models.TempUser) {
 	}
 }
 
-// return a smtp client
-func Dial(addr string) (*smtp.Client, error) {
+// dial returns a smtp client.
+func dial(addr string) (*smtp.Client, error) {
 	conn, err := tls.Dial("tcp", addr, nil)
 	if err != nil {
 		log.Println("Dialing Error:", err)
 		return nil, err
 	}
-	//Explode Host Port String
+	// Explode Host Port String
 	host, _, _ := net.SplitHostPort(addr)
 	return smtp.NewClient(conn, host)
 }
 
-// refer to net/smtp func SendMail()
+// sendMailTLS: refer to net/smtp func SendMail().
+//
 // When using net.Dial to connect to the tls (SSL) port, smtp. NewClient() will be stuck and will not prompt err
-// When len (to)>1, to [1] starts to prompt that it is secret delivery
-func SendMailUsingTLS(addr string, auth smtp.Auth, from string,
+// When len (to)>1, to [1] starts to prompt that it is secret delivery.
+func sendMailTLS(addr string, auth smtp.Auth, from string,
 	to []string, msg []byte) (err error) {
 
-	//create smtp client
-	c, err := Dial(addr)
+	// Create smtp client
+	c, err := dial(addr)
 	if err != nil {
 		log.Println("Create smtp client error:", err)
 		return err
 	}
 	defer c.Close()
 
+	// Checking authentication
 	if auth != nil {
 		if ok, _ := c.Extension("AUTH"); ok {
 			if err = c.Auth(auth); err != nil {
@@ -157,6 +164,7 @@ func SendMailUsingTLS(addr string, auth smtp.Auth, from string,
 		}
 	}
 
+	// Setting recipient
 	if err = c.Mail(from); err != nil {
 		return err
 	}
@@ -167,16 +175,19 @@ func SendMailUsingTLS(addr string, auth smtp.Auth, from string,
 		}
 	}
 
+	// Retrieving the Writer to set the message headers and body
 	w, err := c.Data()
 	if err != nil {
 		return err
 	}
 
+	// Writing `msg` in the Writer
 	_, err = w.Write(msg)
 	if err != nil {
 		return err
 	}
 
+	// Closing the Writer
 	err = w.Close()
 	if err != nil {
 		return err
