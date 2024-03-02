@@ -52,6 +52,6 @@ func GetCurrentFuncName() string {
 }
 
 func CheckEmail(email string) bool {
-	reg := regexp.MustCompile("^[a-z0-9-_&%+.]+@[a-z0-9-&.%+_]+\\.[a-z]+(\\.[a-z]+)?$")
+	reg := regexp.MustCompile("^[\\w&#$.%+-]+@[\\w&#$.%+-]+\\.[a-z]{2,6}?$")
 	return reg.MatchString(email)
 }
