@@ -135,7 +135,7 @@ func (log *Logs) sortLogs() {
 	})
 }
 
-// FetchLevelLogs filters Log returning only Log matching the given `level`.
+// FetchAttrLogs filters Log returning only Log matching the given `level`.
 func FetchAttrLogs(attr string, value string) Logs {
 	attr = strings.ToLower(attr)
 	logs := RetrieveLogs()
