@@ -48,24 +48,30 @@ func setDailyTimer() time.Duration {
 	return d
 }
 
+// closeLog checks if the log file is open and if yes, close it.
+func closeLog() {
+	if logs != nil {
+		err := logs.Close()
+		if err != nil {
+			log.Println(GetCurrentFuncName(), slog.Any("output", err))
+		}
+	}
+}
+
 // LogInit is meant to be run as a goroutine to create a new log file every day
 // appending the file's creation timestamp in its name.
 func LogInit() {
 	duration := setDailyTimer()
 	var jsonHandler *slog.JSONHandler
+	var err error
+	var filename string
+	defer closeLog()
 	for {
-		filename := "logs/logs_" + time.Now().Format(time.DateOnly) + ".log"
-		var err error
-		logs, err = os.Open(filename)
+		filename = "logs/logs_" + time.Now().Format(time.DateOnly) + ".log"
+		closeLog()
+		logs, err = os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 		if err != nil {
-			var createErr error
-			if logs != nil {
-				logs.Close()
-			}
-			logs, createErr = os.Create(filename)
-			if createErr != nil {
-				log.Println(GetCurrentFuncName(), slog.Any("output", createErr))
-			}
+			log.Println(GetCurrentFuncName(), slog.Any("output", err))
 		}
 		jsonHandler = slog.NewJSONHandler(logs, nil)
 		Logger = slog.New(jsonHandler)
@@ -91,9 +97,7 @@ func (log *Logs) fetchLogInfo(file string) {
 			return
 		}
 		*log = append(*log, singleLog)
-		fmt.Printf("singleLog: %#v\n", singleLog)
 	}
-	fmt.Printf("log: %#v\n", log)
 }
 
 func printFileNames(files []os.DirEntry) []string {
@@ -108,7 +112,6 @@ func printFileNames(files []os.DirEntry) []string {
 // and returns a Logs array.
 func RetrieveLogs() (logArray Logs) {
 	logFiles, err := os.ReadDir(Path + "logs/.")
-	fmt.Printf("logFiles: %#v\n", printFileNames(logFiles))
 	if err != nil {
 		Logger.Error(GetCurrentFuncName(), slog.Any("output", err))
 	} else {
